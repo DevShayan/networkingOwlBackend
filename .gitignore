@@ -1,0 +1,7 @@
+notes/
+mongodata/
+src/uploads/
+node_modules/
+
+.env
+ngrok.yaml
