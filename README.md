@@ -1,29 +1,26 @@
-[
+# GET REQUESTS
 
-/////////////////////////// GET REQUESTS ///////////////////////////
-
-// http://localhost:8080/user/get-user/<uid>
-// http://localhost:8080/user/confirm-email/<confirmation_code>
-// http://localhost:8080/user/get-profile-pic/<uid>
-// http://localhost:8080/user/get-trees/<uid>
-// http://localhost:8080/user/register/<referral_code>
-
-// http://localhost:8080/ref-link/get-people-referred/<uid>
-// http://localhost:8080/ref-link/gen-ref-link/<uid>
-// http://localhost:8080/ref-link/register/<referral_codeuid>
-// http://localhost:8080/ref-link/get-ref-code/<uid>
-
-// http://localhost:8080/packs/get-packages
-// http://localhost:8080/packs/get-bundles
-
-// http://localhost:8080/transaction/get-trans/<uid>
+http://localhost:8080/user/get-user/:uid<br>
+http://localhost:8080/user/confirm-email/:confirmation_code<br>
+http://localhost:8080/user/get-profile-pic/:uid<br>
+http://localhost:8080/user/get-trees/:uid<br>
+http://localhost:8080/user/register/:referral_code<br>
+http://localhost:8080/ref-link/get-people-referred/:uid<br>
+http://localhost:8080/ref-link/gen-ref-link/:uid<br>
+http://localhost:8080/ref-link/register/:referral_codeuid<br>
+http://localhost:8080/ref-link/get-ref-code/:uid<br>
+http://localhost:8080/packs/get-packages<br>
+http://localhost:8080/packs/get-bundles<br>
+http://localhost:8080/transaction/get-trans/:uid<br>
 
 
 
-////////////////////////// POST REQUESTS //////////////////////////
+# POST REQUESTS
 
-// Register User: http://localhost:8080/user/register
+### Register User
+http://localhost:8080/user/register
 
+``` json
 {
   "user": {
     "name": "Ahmed",
@@ -39,10 +36,11 @@
     "phone_no": "+92 123 4567891"
   },
   "ref_code": "123" // nullable
-},
+}
+```
 
-///////////////////////
 
+``` json
 {
   "user": {
     "name": "King Khan",
@@ -55,55 +53,74 @@
     "country": "USA",
     "phone_no": "+92 123 4567895"
   }
-},
+}
+```
 
-// Login: http://localhost:8080/user/login
+### Login
+http://localhost:8080/user/login
 
+``` json
 {
   "email": "your email",
   "pass": "your password"
-},
+}
+```
 
-// reset pass: http://localhost:8080/user/reset-pass
+### Reset Password
+http://localhost:8080/user/reset-pass
 
+``` json
 {
   "code": "123",
   "new_pass": "new password"
-},
+}
+```
 
-// Request password reset: http://localhost:8080/user/req-pass-reset
+### Request password reset
+http://localhost:8080/user/req-pass-reset
 
+``` json
 {
   "email": "abc@xyz.com"
-},
+}
+```
 
-// edit profile request - Form data: http://localhost:8080/user/edit/<uid>?remove_image=true/false
+### Edit profile request - Form data
+http://localhost:8080/user/edit/<uid>?remove_image=true/false
 
+``` json
 {
   "name": "New Name",
   "city": "New City"
-},
+}
+```
 
-// Buy Package : http://localhost:8080/transaction/buy-package
+### Buy Package
+http://localhost:8080/transaction/buy-package
 
+``` json
 {
   "uid": "uid",
   "pid": "pid"
-},
+}
+```
 
-// Buy Bundle : http://localhost:8080/transaction/buy-bundle
+### Buy Bundle
+http://localhost:8080/transaction/buy-bundle
 
+``` json
 {
   "uid": "uid",
   "bid": "bid"
-},
+}
+```
 
-// Modify Balance to Wallet : http://localhost:8080/admin/mod-balance
+### Modify Balance to Wallet
+http://localhost:8080/admin/mod-balance
 
+``` json
 {
   "uid": "uid",
   "amount": 100
 }
-
-
-]
+```
