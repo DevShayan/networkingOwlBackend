@@ -1,17 +1,40 @@
 # GET REQUESTS
 
-http://localhost:8080/user/get-user/:uid<br>
-http://localhost:8080/user/confirm-email/:confirmation_code<br>
-http://localhost:8080/user/get-profile-pic/:uid<br>
-http://localhost:8080/user/get-trees/:uid<br>
-http://localhost:8080/user/register/:referral_code<br>
-http://localhost:8080/ref-link/get-people-referred/:uid<br>
-http://localhost:8080/ref-link/gen-ref-link/:uid<br>
-http://localhost:8080/ref-link/register/:referral_codeuid<br>
-http://localhost:8080/ref-link/get-ref-code/:uid<br>
-http://localhost:8080/packs/get-packages<br>
-http://localhost:8080/packs/get-bundles<br>
-http://localhost:8080/transaction/get-trans/:uid<br>
+### Get current logged in user/admin
+http://localhost:8080/user/get-curr-user
+
+### Get user
+http://localhost:8080/admin/get-user/:uid
+
+### Confirm email (by clicking email link)
+http://localhost:8080/user/confirm-email/:confirmation_code
+
+### Get profile picture
+http://localhost:8080/user/get-profile-pic/:uid
+
+### Get user trees
+http://localhost:8080/user/get-trees/:uid
+
+### Logout current user
+http://localhost:8080/user/logout
+
+### Get users referred by user
+http://localhost:8080/ref-link/get-people-referred/:uid
+
+### Generate referral link
+http://localhost:8080/ref-link/gen-ref-link/:uid
+
+### Get referral link
+http://localhost:8080/ref-link/get-ref-link/:uid
+
+### Get all packages
+http://localhost:8080/packs/get-packages
+
+### Get all bundles
+http://localhost:8080/packs/get-bundles
+
+### Get transactions of user
+http://localhost:8080/transaction/get-trans/:uid
 
 
 
@@ -20,7 +43,7 @@ http://localhost:8080/transaction/get-trans/:uid<br>
 ### Register User
 http://localhost:8080/user/register
 
-``` json
+``` jsonc
 {
   "user": {
     "name": "Ahmed",
@@ -62,7 +85,8 @@ http://localhost:8080/user/login
 ``` json
 {
   "email": "your email",
-  "pass": "your password"
+  "pass": "your password",
+  "is_admin": "false"
 }
 ```
 

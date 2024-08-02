@@ -15,9 +15,9 @@ const BundleSchema = mongoose.Schema(
             required: true
         },
         image_link: {
-	type: String,
-	required: true
-	},
+            type: String,
+            required: true
+        },
         description_points: [ String ]
     }
 );

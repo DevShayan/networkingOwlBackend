@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
-const { userModel } = require("../models/userModel");
 const { addTrAndUpdUser } = require("./transactionController");
+const { printWarning } = require("../constants/functions");
 
 async function modifyBalance(req, res, next) {
     try {
@@ -14,7 +14,7 @@ async function modifyBalance(req, res, next) {
         else
             description = "Funds deposited to your wallet";
 
-        addTrAndUpdUser({
+        await addTrAndUpdUser({
             uid: req.body.uid,
             amount: req.body.amount,
             description: description
@@ -25,7 +25,7 @@ async function modifyBalance(req, res, next) {
 
         res.json({
             error: null,
-            data: `Password reset link sent to ${passResetCode.email}`
+            data: "Successfully changed user balance"
         });
     }
     catch (error) {

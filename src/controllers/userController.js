@@ -1,21 +1,21 @@
 const bcrypt = require("bcrypt");
 const fs = require("fs")
 
-const { printWarning, printError } = require("../constants/functions.js");
 const { userModel } = require("../models/userModel.js");
 const { refCodeModel } = require("../models/refCodeModel.js");
 const { unconfirmedEmailCodeModel } = require("../models/unconfirmedEmailCodeModel.js");
-const { sendVerificationEmail, sendPassResetEmail } = require("../services/emailService.js");
-const { passResetCodeModel } = require("../models/passResetCodeModel.js");
-const { transactionModel } = require("../models/transactionModel.js");
+const { sendVerificationEmail } = require("../services/emailService.js");
 const { default: mongoose } = require("mongoose");
+const jwt = require("jsonwebtoken");
+const { adminModel } = require("../models/adminModel.js");
+const { printWarning } = require("../constants/functions.js");
 
 
 async function getUser(req, res, next) {
     try {
         const dbUser = await userModel
-                                .findById(req.params.id)
-                                .select("-password");
+            .findById(req.params.uid)
+            .select("-password");
 
         if (dbUser == null) {
             throw new Error("User not found");
@@ -24,6 +24,41 @@ async function getUser(req, res, next) {
         res.json({
             error: null,
             data: dbUser
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            error: error.message,
+            data: null
+        });
+    }
+}
+
+async function getCurrUser(req, res, next) {
+    try {
+        var dbUser;
+        if (req.app.locals.isAdmin) {
+            dbUser = await adminModel
+                .findById(req.app.locals.uid)
+                .select("-password");
+        }
+        else {
+            dbUser = await userModel
+                .findById(req.app.locals.uid)
+                .select("-password")
+                .populate("bundles_bought", "-image_link -description_points");
+        }
+
+        if (dbUser == null) {
+            throw new Error("User not found");
+        }
+
+        res.json({
+            error: null,
+            data: {
+                user: dbUser,
+                type: req.app.locals.isAdmin ? "admin" : "user"
+            }
         });
     }
     catch (error) {
@@ -92,6 +127,8 @@ async function registerUser(req, res, next) {
             }
         ))[0];
 
+        setAuthCookie(_id, false, res);
+
         await session.commitTransaction();
         await session.endSession();
 
@@ -115,9 +152,22 @@ async function registerUser(req, res, next) {
 
 async function login(req, res, next) {
     try {
-        const dbUser = await userModel.findOne({
-            email: req.body.email
-        });
+        var dbUser = null;
+        
+        if (req.body.is_admin === undefined) {
+            throw new Error("User type not defined");
+        }
+
+        if (req.body.is_admin) {
+            dbUser = await adminModel.findOne({
+                email: req.body.email
+            }).lean();
+        }
+        else {
+            dbUser = await userModel.findOne({
+                email: req.body.email
+            }).lean();
+        }
 
         if (dbUser == null) {
             throw new Error("Email or password incorrect!");
@@ -126,16 +176,23 @@ async function login(req, res, next) {
         const passMatched = await bcrypt.compare(req.body.pass, dbUser.password);
 
         if (!passMatched) {
-            throw new Error("Incorrect email or password!");
+            throw new Error("Email or password incorrect!");
         }
 
         if (!(await emailConfirmed(dbUser.email))) {
             throw new Error("Email not confirmed");
         }
 
+        setAuthCookie(dbUser._id, req.body.is_admin, res);
+
+        delete dbUser.password;
+
         res.json({
             error: null,
-            data: dbUser
+            data: {
+                user: dbUser,
+                type: req.body.is_admin ? "admin" : "user"
+            }
         });
     }
     catch (error) {
@@ -256,6 +313,23 @@ async function getPeopleReferred(req, res, next) {
     }
 }
 
+async function logout(req, res, next) {
+    try {
+        res.clearCookie("net-owl-auth");
+
+        res.json({
+            error: null,
+            data: "logged out successfully"
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            error: error.message,
+            data: null
+        });
+    }
+}
+
 
 /////////////////////////////////////////////////////////////
 
@@ -304,14 +378,33 @@ function ifRemoveImage(reqQuery, dbUser) {
         dbUser.image_link !== undefined;
 }
 
+function setAuthCookie(uid, isAdmin, res) {
+    const maxAge = 3*24*60*60   // 3 days
+    const authToken = jwt.sign({
+        id: uid,
+        is_admin: isAdmin
+    }, process.env.AUTH_TOKEN_KEY, {
+        expiresIn: maxAge
+    });
+
+    res.cookie("net-owl-auth", authToken, {
+        httpOnly: true,
+        maxAge: maxAge*1000,
+        sameSite: "None",
+        secure: true
+    });
+}
+
 
 
 module.exports = {
     getUser,
+    getCurrUser,
     registerUser,
     login,
     confirmEmail,
     editProfile,
     getProfilePic,
     getPeopleReferred,
+    logout,
 };

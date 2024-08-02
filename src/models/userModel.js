@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { packageModel } = require("./packageModel");
+const { bundleModel } = require("./bundleModel");
 
 const UserSchema = mongoose.Schema(
     {
@@ -43,8 +44,12 @@ const UserSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: packageModel
         },
-        image_link: String,
+        bundles_bought: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: bundleModel
+        }],
         people_referred: [ String ],
+        image_link: String,
         referred_by: String,
     }
 );

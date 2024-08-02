@@ -91,10 +91,15 @@ async function bundleBought(req, res) {
             throw new Error("User not found!");
         }
 
-        const bundle_bought = await bundleModel.findById(req.body.bid);
-
-        if (bundle_bought == null) {
+        
+        const bundleBought = await bundleModel.findById(req.body.bid);
+        
+        if (bundleBought == null) {
             throw new Error("No bundle selected!");
+        }
+
+        if (currUser.bundles_bought && currUser.bundles_bought.includes(bundleBought._id)) {
+            throw new Error("Bundle already bought");
         }
 
         var percent_off = 0;
@@ -103,16 +108,30 @@ async function bundleBought(req, res) {
             percent_off = currUser.curr_package.percent_off;
         }
 
-        const amount_off = bundle_bought.price * (percent_off/100);
+        const amount_off = bundleBought.price * (percent_off/100);
 
         const session = await mongoose.startSession();
         session.startTransaction();
         
         await addTrAndUpdUser({
-            uid: req.body.uid,
-            amount: -bundle_bought.price - amount_off,
-            description: `Bought ${bundle_bought.name} bundle`
+            uid: currUser._id,
+            amount: -bundleBought.price - amount_off,
+            description: `Bought ${bundleBought.name} bundle`
         }, session);
+
+        await userModel.updateOne(
+            {
+                _id: currUser._id
+            },
+            {
+                $push: {
+                    bundles_bought: bundleBought._id
+                }
+            },
+            {
+                session: session
+            }
+        );
 
         session.commitTransaction();
         session.endSession();

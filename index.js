@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -8,24 +10,34 @@ const bunAndPackRoute = require("./src/routes/bunAndPackRoutes.js");
 const adminRoute = require("./src/routes/adminRoutes.js");
 const constFunctions = require("./src/constants/functions.js");
 const cors = require("cors");
+const cookeiParser = require("cookie-parser");
+const { corsOptions } = require("./src/services/corsOptions.js");
+const https = require("https");
+const fs = require("fs");
 
 const app = express();
+
+var httpsOptions = {
+    key: fs.readFileSync("/app/certificates/client-key.pem"),
+    cert: fs.readFileSync("/app/certificates/client-cert.pem")
+};
 
 // Global Middlewares
 
 app.use(express.json()); // Allow reading json from req body
-app.use(cors({
-    origin: "http://localhost:5173",
-optionsSuccessStatus: 200
-})); // Allow request from this host
-
+app.use(express.urlencoded({extended: false}));
+app.use(cookeiParser());
+app.use(cors(corsOptions)); // Allow request from hosts
 
 
 mongoose.connect(process.env.MONGO_DB_URL)
 .then(() => {
-    app.listen(8080, () => {
-        console.log("Listening on http://localhost:8080 ...");
+    https.createServer(httpsOptions, app).listen(8080, () => {
+        constFunctions.printWarning("Listening on https://localhost:8080 ...");
     });
+    // app.listen(8080, () => {
+    //     console.log("Server listening on http://localhost:8080 ...");
+    // });
 })
 .catch((e) => constFunctions.printError(`connection failed: ${e}`));
 

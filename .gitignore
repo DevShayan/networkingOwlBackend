@@ -1,7 +1,9 @@
-notes/
+certificates/
 mongodata/
-src/uploads/
 node_modules/
+notes/
+scripts/
+src/uploads/
+
 
 .env
-ngrok.yaml

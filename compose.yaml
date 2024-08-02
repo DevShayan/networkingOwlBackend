@@ -27,6 +27,7 @@ services:
       MAIL_HOST: ${MAIL_HOST}
       MAIL_USER: ${MAIL_USER}
       MAIL_PASS: ${MAIL_PASS}
+      AUTH_TOKEN_KEY: ${AUTH_TOKEN_KEY}
     depends_on:
       - mongo-db
     volumes:
@@ -45,19 +46,6 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://mongo-db:27017/
     depends_on:
       - mongo-db
-
-  ngrok:
-    image: ngrok/ngrok:latest
-    restart: unless-stopped
-    ports:
-      - 4040:4040
-    volumes:
-      - ./ngrok.yaml:/etc/ngrok.yaml
-    command:
-      - "start"
-      - "--all"
-      - "--config"
-      - "/etc/ngrok.yaml"
   
 volumes:
   mongoVol:
