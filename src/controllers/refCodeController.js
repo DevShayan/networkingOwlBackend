@@ -31,7 +31,7 @@ async function genRefLink(req, res, next) {
             error: null,
             data: {
                 referral_code: newId,
-                referral_link: `http://localhost:8080/user/register?ref_code=${newId}`
+                referral_link: `https://localhost:8080/user/register?ref_code=${newId}`
             }
         });
     }
@@ -57,7 +57,7 @@ async function getRefCode(req, res, next) {
             error: null,
             data: {
                 referral_code: refCode.code,
-                referral_link: `http://localhost:8080/user/register?ref_code=${refCode.code}`
+                referral_link: `https://localhost:8080/user/register?ref_code=${refCode.code}`
             }
         });
     }

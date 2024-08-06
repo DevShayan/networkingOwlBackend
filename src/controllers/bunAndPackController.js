@@ -44,8 +44,21 @@ async function getBundles(req, res, next) {
     }
 }
 
+async function getBundlePic(req, res, next) {
+    try {
+        res.sendFile(`/app/src/uploads/images/bundles/${req.params.bid}.jpg`);
+    }
+    catch (error) {
+        res.status(400).json({
+            error: error.message,
+            data: null
+        });
+    }
+}
+
 
 module.exports = {
     getPackages,
     getBundles,
+    getBundlePic,
 };

@@ -18,23 +18,37 @@ async function packageBought(req, res) {
             throw new Error("User not found!");
         }
 
-        const package_bought = await packageModel.findById(req.body.pid);
+        const packageBought = await packageModel.findById(req.body.pid);
 
-        if (package_bought == null) {
+        if (packageBought == null) {
             throw new Error("No package selected!");
         }
         
         await addTrAndUpdUser({
-            uid: req.body.uid,
-            amount: -package_bought.price,
-            description: `Bought ${package_bought.name} package`
+            uid: currUser._id,
+            amount: -packageBought.price,
+            description: `Bought ${packageBought.name} package`
         }, session);
+
+        await userModel.updateOne(
+            {
+                _id: currUser._id
+            },
+            {
+                $set: {
+                    curr_package: packageBought._id
+                }
+            },
+            {
+                session: session
+            }
+        );
 
 
         // 25%, 20%, 15%
-        const p1Amount = Math.round(package_bought.price * 0.25);
-        const p2Amount = Math.round(package_bought.price * 0.2);
-        const p3Amount = Math.round(package_bought.price * 0.15);
+        const p1Amount = Math.round(packageBought.price * 0.25);
+        const p2Amount = Math.round(packageBought.price * 0.2);
+        const p3Amount = Math.round(packageBought.price * 0.15);
 
 
         // add transactions % for parents
@@ -43,7 +57,7 @@ async function packageBought(req, res) {
             await addTrAndUpdUser({
                 uid: currUser.referred_by,
                 amount: p1Amount,
-                description: `${currUser.name} bought ${package_bought.name} package for ${package_bought.price}`
+                description: `${currUser.name} bought ${packageBought.name} package for ${packageBought.price}`
             }, session);
             const p1 = await userModel.findById(currUser.referred_by).select("referred_by");
 
@@ -51,7 +65,7 @@ async function packageBought(req, res) {
                 await addTrAndUpdUser({
                     uid: p1.referred_by,
                     amount: p2Amount,
-                    description: `${currUser.name} bought ${package_bought.name} package for ${package_bought.price}`
+                    description: `${currUser.name} bought ${packageBought.name} package for ${packageBought.price}`
                 }, session);
                 const p2 = await userModel.findById(p1.referred_by).select("referred_by");
 
@@ -59,7 +73,7 @@ async function packageBought(req, res) {
                     await addTrAndUpdUser({
                         uid: p2.referred_by,
                         amount: p3Amount,
-                        description: `${currUser.name} bought ${package_bought.name} package for ${package_bought.price}`
+                        description: `${currUser.name} bought ${packageBought.name} package for ${packageBought.price}`
                     }, session);
                 }
             }
@@ -111,11 +125,11 @@ async function bundleBought(req, res) {
         const amount_off = bundleBought.price * (percent_off/100);
 
         const session = await mongoose.startSession();
-        session.startTransaction();
+        await session.startTransaction();
         
         await addTrAndUpdUser({
             uid: currUser._id,
-            amount: -bundleBought.price - amount_off,
+            amount: -bundleBought.price + amount_off,
             description: `Bought ${bundleBought.name} bundle`
         }, session);
 
@@ -133,8 +147,8 @@ async function bundleBought(req, res) {
             }
         );
 
-        session.commitTransaction();
-        session.endSession();
+        await session.commitTransaction();
+        await session.endSession();
 
         
         res.json({

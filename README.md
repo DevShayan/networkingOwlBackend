@@ -1,47 +1,51 @@
 # GET REQUESTS
 
 ### Get current logged in user/admin
-http://localhost:8080/user/get-curr-user
+https://localhost:8080/user/get-curr-user
 
 ### Get user
-http://localhost:8080/admin/get-user/:uid
+https://localhost:8080/admin/get-user/:uid
 
 ### Confirm email (by clicking email link)
-http://localhost:8080/user/confirm-email/:confirmation_code
+https://localhost:8080/user/confirm-email/:confirmation_code
 
 ### Get profile picture
-http://localhost:8080/user/get-profile-pic/:uid
+https://localhost:8080/user/get-profile-pic/:uid
+
 
 ### Get user trees
-http://localhost:8080/user/get-trees/:uid
+https://localhost:8080/user/get-trees/:uid
 
 ### Logout current user
-http://localhost:8080/user/logout
+https://localhost:8080/user/logout
 
 ### Get users referred by user
-http://localhost:8080/ref-link/get-people-referred/:uid
+https://localhost:8080/ref-link/get-people-referred/:uid
 
 ### Generate referral link
-http://localhost:8080/ref-link/gen-ref-link/:uid
+https://localhost:8080/ref-link/gen-ref-link/:uid
 
 ### Get referral link
-http://localhost:8080/ref-link/get-ref-link/:uid
+https://localhost:8080/ref-link/get-ref-link/:uid
 
 ### Get all packages
-http://localhost:8080/packs/get-packages
+https://localhost:8080/packs/get-packages
 
 ### Get all bundles
-http://localhost:8080/packs/get-bundles
+https://localhost:8080/packs/get-bundles
+
+### Get bundle picture
+https://localhost:8080/packs/get-bundle-pic/:bid
 
 ### Get transactions of user
-http://localhost:8080/transaction/get-trans/:uid
+https://localhost:8080/transaction/get-trans/:uid
 
 
 
 # POST REQUESTS
 
 ### Register User
-http://localhost:8080/user/register
+https://localhost:8080/user/register
 
 ``` jsonc
 {
@@ -80,7 +84,7 @@ http://localhost:8080/user/register
 ```
 
 ### Login
-http://localhost:8080/user/login
+https://localhost:8080/user/login
 
 ``` json
 {
@@ -91,7 +95,7 @@ http://localhost:8080/user/login
 ```
 
 ### Reset Password
-http://localhost:8080/user/reset-pass
+https://localhost:8080/user/reset-pass
 
 ``` json
 {
@@ -101,7 +105,7 @@ http://localhost:8080/user/reset-pass
 ```
 
 ### Request password reset
-http://localhost:8080/user/req-pass-reset
+https://localhost:8080/user/req-pass-reset
 
 ``` json
 {
@@ -110,7 +114,7 @@ http://localhost:8080/user/req-pass-reset
 ```
 
 ### Edit profile request - Form data
-http://localhost:8080/user/edit/<uid>?remove_image=true/false
+https://localhost:8080/user/edit/<uid>?remove_image=true/false
 
 ``` json
 {
@@ -120,7 +124,7 @@ http://localhost:8080/user/edit/<uid>?remove_image=true/false
 ```
 
 ### Buy Package
-http://localhost:8080/transaction/buy-package
+https://localhost:8080/transaction/buy-package
 
 ``` json
 {
@@ -130,7 +134,7 @@ http://localhost:8080/transaction/buy-package
 ```
 
 ### Buy Bundle
-http://localhost:8080/transaction/buy-bundle
+https://localhost:8080/transaction/buy-bundle
 
 ``` json
 {
@@ -140,7 +144,7 @@ http://localhost:8080/transaction/buy-bundle
 ```
 
 ### Modify Balance to Wallet
-http://localhost:8080/admin/mod-balance
+https://localhost:8080/admin/mod-balance
 
 ``` json
 {

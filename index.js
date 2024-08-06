@@ -35,9 +35,6 @@ mongoose.connect(process.env.MONGO_DB_URL)
     https.createServer(httpsOptions, app).listen(8080, () => {
         constFunctions.printWarning("Listening on https://localhost:8080 ...");
     });
-    // app.listen(8080, () => {
-    //     console.log("Server listening on http://localhost:8080 ...");
-    // });
 })
 .catch((e) => constFunctions.printError(`connection failed: ${e}`));
 

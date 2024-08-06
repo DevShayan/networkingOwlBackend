@@ -20,7 +20,7 @@ function sendVerificationEmail(recieverEmail, verificationCode) {
         },
         to: [recieverEmail],
         subject: "Account Verification",
-        text: `Click this link to verify your account: http://localhost:5173/user/confirm-email/${verificationCode}`,
+        text: `Click this link to verify your account: https://localhost:8080/user/confirm-email/${verificationCode}`,
     };
 
     transport.sendMail(mailOptions)

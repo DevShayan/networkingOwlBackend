@@ -166,7 +166,7 @@ async function login(req, res, next) {
         else {
             dbUser = await userModel.findOne({
                 email: req.body.email
-            }).lean();
+            }).populate("bundles_bought", "-image_link -description_points").lean();
         }
 
         if (dbUser == null) {
@@ -210,7 +210,8 @@ async function confirmEmail(req, res, next) {
         });
 
         // redirect to login
-        res.redirect(200, "https://devshayan.github.io/portfolio");
+        // TODO: change me
+        res.redirect(200, "http://localhost:5173/login");
     }
     catch (error) {
         res.status(400).json({
@@ -240,7 +241,7 @@ async function editProfile(req, res, next) {
         const conditionalImageRemove = {};
     
         if (req.hasOwnProperty("file")) {
-            updateableValues.image_link = `http://localhost:8080/user/get-profile-pic/${req.params.uid}`;
+            updateableValues.image_link = `https://localhost:8080/user/get-profile-pic/${req.params.uid}`;
         }
         else if (ifRemoveImage(req.query, dbUser)) {
             conditionalImageRemove.image_link = null;
@@ -315,7 +316,10 @@ async function getPeopleReferred(req, res, next) {
 
 async function logout(req, res, next) {
     try {
-        res.clearCookie("net-owl-auth");
+        res.clearCookie("net-owl-auth", {
+		sameSite: "None",
+		secure: true
+	});
 
         res.json({
             error: null,

@@ -75,8 +75,11 @@ async function resetPass(req, res, next) {
         await session.commitTransaction();
         await session.endSession();
 
-        // redirect to login
-        res.redirect(200, "http://localhost:5173/login");
+
+        res.json({
+            error: null,
+            data: "Password reset successfully"
+        });
     }
     catch (error) {
         res.status(400).json({
