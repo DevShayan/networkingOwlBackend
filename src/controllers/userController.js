@@ -9,6 +9,7 @@ const { default: mongoose } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { adminModel } = require("../models/adminModel.js");
 const { printWarning } = require("../constants/functions.js");
+const { serverBaseURL } = require("../constants/urls.js");
 
 
 async function getUser(req, res, next) {
@@ -241,7 +242,7 @@ async function editProfile(req, res, next) {
         const conditionalImageRemove = {};
     
         if (req.hasOwnProperty("file")) {
-            updateableValues.image_link = `https://localhost:8080/user/get-profile-pic/${req.params.uid}`;
+            updateableValues.image_link = `${serverBaseURL}/user/get-profile-pic/${req.params.uid}`;
         }
         else if (ifRemoveImage(req.query, dbUser)) {
             conditionalImageRemove.image_link = null;

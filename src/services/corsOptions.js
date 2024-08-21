@@ -1,6 +1,8 @@
 const whitelist = [
     "http://localhost:5173",
-    "https://quiet-cheetah-64.telebit.io"
+    "http://localhost:5174",
+    "https://kspfwvc5-5173.inc1.devtunnels.ms",
+    "https://kspfwvc5-5174.inc1.devtunnels.ms"
 ];
 
 const corsOptions = {

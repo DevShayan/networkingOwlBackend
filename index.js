@@ -18,8 +18,8 @@ const fs = require("fs");
 const app = express();
 
 var httpsOptions = {
-    key: fs.readFileSync("/app/certificates/client-key.pem"),
-    cert: fs.readFileSync("/app/certificates/client-cert.pem")
+    key: fs.readFileSync("/app/certificates/key.pem"),
+    cert: fs.readFileSync("/app/certificates/cert.pem")
 };
 
 // Global Middlewares
@@ -35,6 +35,9 @@ mongoose.connect(process.env.MONGO_DB_URL)
     https.createServer(httpsOptions, app).listen(8080, () => {
         constFunctions.printWarning("Listening on https://localhost:8080 ...");
     });
+    // app.listen(8080, () => {
+    //     constFunctions.printWarning("Listening on http://localhost:8080 ...");
+    // });
 })
 .catch((e) => constFunctions.printError(`connection failed: ${e}`));
 

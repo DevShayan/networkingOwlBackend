@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const { printError } = require("../constants/functions");
+const { serverBaseURL, clientBaseURL } = require("../constants/urls");
 
 const transport = nodemailer.createTransport({
     service: process.env.MAIL_SERVICE,
@@ -20,7 +21,7 @@ function sendVerificationEmail(recieverEmail, verificationCode) {
         },
         to: [recieverEmail],
         subject: "Account Verification",
-        text: `Click this link to verify your account: https://localhost:8080/user/confirm-email/${verificationCode}`,
+        text: `Click this link to verify your account: ${serverBaseURL}/user/confirm-email/${verificationCode}`,
     };
 
     transport.sendMail(mailOptions)
@@ -35,7 +36,7 @@ function sendPassResetEmail(recieverEmail, resetCode) {
         },
         to: [recieverEmail],
         subject: "Password Reset",
-        text: `Click this link to reset your password: http://localhost:5173/reset-pass?reset_code=${resetCode}`,
+        text: `Click this link to reset your password: ${clientBaseURL}/reset-pass?reset_code=${resetCode}`,
     };
 
     transport.sendMail(mailOptions)
