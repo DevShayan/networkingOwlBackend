@@ -20,7 +20,6 @@ const app = express();
 // Global Middlewares
 
 app.use(express.json()); // Allow reading json from req body
-app.use(express.urlencoded({extended: false}));
 app.use(cookeiParser());
 app.use(cors(corsOptions)); // Allow request from hosts
 
