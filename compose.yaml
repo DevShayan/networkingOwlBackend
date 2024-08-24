@@ -14,7 +14,7 @@ services:
       ALLOW_EMPTY_PASSWORD: 'yes'
       MONGODB_REPLICA_SET_KEY: ${REPLICA_SET_KEY}
     volumes:
-      - mongoVol:/bitnami/mongodb
+      - ./mongodata:/bitnami/mongodb
     restart: always
 
   node-app:
@@ -48,6 +48,3 @@ services:
     depends_on:
       - mongo-db
     restart: always
-  
-volumes:
-  mongoVol:
