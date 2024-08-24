@@ -1,8 +1,7 @@
 const whitelist = [
     "http://localhost:5173",
-    "http://localhost:5174",
-    "https://kspfwvc5-5173.inc1.devtunnels.ms",
-    "https://kspfwvc5-5174.inc1.devtunnels.ms"
+    "https://thenetworkingowl.com",
+    "https://www.thenetworkingowl.com"
 ];
 
 const corsOptions = {
