@@ -13,7 +13,7 @@ services:
       ALLOW_EMPTY_PASSWORD: 'yes'
       MONGODB_REPLICA_SET_KEY: ${REPLICA_SET_KEY}
     volumes:
-      - ./mongodata:/bitnami/mongodb
+      - mongoVol:/bitnami/mongodb
 
   node-app:
     build: .
@@ -47,5 +47,5 @@ services:
     depends_on:
       - mongo-db
   
-# volumes:
-#   mongoVol:
+volumes:
+  mongoVol:
