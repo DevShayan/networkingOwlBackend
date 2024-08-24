@@ -16,7 +16,7 @@ const transport = nodemailer.createTransport({
 function sendVerificationEmail(recieverEmail, verificationCode) {
     const mailOptions = {
         from: {
-            name: "NetworkingOwl - Testing",
+            name: "The Networking Owl",
             address: process.env.MAIL_USER
         },
         to: [recieverEmail],
@@ -31,7 +31,7 @@ function sendVerificationEmail(recieverEmail, verificationCode) {
 function sendPassResetEmail(recieverEmail, resetCode) {
     const mailOptions = {
         from: {
-            name: "NetworkingOwl - Testing",
+            name: "The Networking Owl",
             address: process.env.MAIL_USER
         },
         to: [recieverEmail],
