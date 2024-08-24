@@ -17,10 +17,10 @@ const { serverBaseURL } = require("./src/constants/urls.js");
 
 const app = express();
 
-var httpsOptions = {
-    key: fs.readFileSync("/app/certificates/key.pem"),
-    cert: fs.readFileSync("/app/certificates/cert.pem")
-};
+// var httpsOptions = {
+//     key: fs.readFileSync("/app/certificates/key.pem"),
+//     cert: fs.readFileSync("/app/certificates/cert.pem")
+// };
 
 // Global Middlewares
 
