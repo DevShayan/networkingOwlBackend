@@ -210,7 +210,7 @@ async function confirmEmail(req, res, next) {
             _id: req.params.code
         });
 
-        res.redirect(200, `${clientBaseURL}/login`);
+        res.redirect(`${clientBaseURL}/login`);
     }
     catch (error) {
         res.status(400).json({
