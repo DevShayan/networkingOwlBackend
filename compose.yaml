@@ -5,6 +5,7 @@ services:
     image: bitnami/mongodb:latest
     ports:
       - 27017:27017
+    user: root
     environment:
       MONGODB_INITIAL_PRIMARY_ROOT_USER: ${MONGODB_ADMIN_USER}
       MONGODB_ROOT_USER: ${MONGODB_ADMIN_USER}
