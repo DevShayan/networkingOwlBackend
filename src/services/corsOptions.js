@@ -1,5 +1,4 @@
 const whitelist = [
-    "http://localhost:5173",
     "https://thenetworkingowl.com",
     "https://www.thenetworkingowl.com"
 ];
