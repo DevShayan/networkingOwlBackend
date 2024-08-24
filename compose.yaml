@@ -13,7 +13,7 @@ services:
       ALLOW_EMPTY_PASSWORD: 'yes'
       MONGODB_REPLICA_SET_KEY: ${REPLICA_SET_KEY}
     volumes:
-      - mongoVol:/data/db
+      - ./mongodata:/data/db
 
   node-app:
     build: .
