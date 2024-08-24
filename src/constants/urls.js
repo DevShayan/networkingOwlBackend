@@ -1,5 +1,5 @@
-const serverBaseURL = "https://localhost:8080";
-const clientBaseURL = "https://localhost:5173";
+const serverBaseURL = "https://api.thenetworkingowl.com";
+const clientBaseURL = "https://thenetworkingowl.com";
 
 module.exports = {
     serverBaseURL,

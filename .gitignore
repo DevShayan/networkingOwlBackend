@@ -3,7 +3,7 @@ mongodata/
 node_modules/
 notes/
 scripts/
-src/uploads/
+src/uploads/images/profiles/
 
 
 .env

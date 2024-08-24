@@ -9,7 +9,7 @@ const { default: mongoose } = require("mongoose");
 const jwt = require("jsonwebtoken");
 const { adminModel } = require("../models/adminModel.js");
 const { printWarning } = require("../constants/functions.js");
-const { serverBaseURL } = require("../constants/urls.js");
+const { serverBaseURL, clientBaseURL } = require("../constants/urls.js");
 
 
 async function getUser(req, res, next) {
@@ -210,9 +210,7 @@ async function confirmEmail(req, res, next) {
             _id: req.params.code
         });
 
-        // redirect to login
-        // TODO: change me
-        res.redirect(200, "http://localhost:5173/login");
+        res.redirect(200, `${clientBaseURL}/login`);
     }
     catch (error) {
         res.status(400).json({

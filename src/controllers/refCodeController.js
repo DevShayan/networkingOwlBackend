@@ -2,7 +2,7 @@ const { printLog, printError, printWarning } = require("../constants/functions")
 const { refCodeModel } = require("../models/refCodeModel");
 const mongoose = require("mongoose");
 const { userModel } = require("../models/userModel");
-const { serverBaseURL } = require("../constants/urls");
+const { serverBaseURL, clientBaseURL } = require("../constants/urls");
 
 async function genRefLink(req, res, next) {
     try {
@@ -32,7 +32,7 @@ async function genRefLink(req, res, next) {
             error: null,
             data: {
                 referral_code: newId,
-                referral_link: `${serverBaseURL}/user/register?ref_code=${newId}`
+                referral_link: `${clientBaseURL}/register?ref_code=${newId}`
             }
         });
     }
@@ -58,7 +58,7 @@ async function getRefCode(req, res, next) {
             error: null,
             data: {
                 referral_code: refCode.code,
-                referral_link: `${serverBaseURL}/user/register?ref_code=${refCode.code}`
+                referral_link: `${clientBaseURL}/register?ref_code=${refCode.code}`
             }
         });
     }
