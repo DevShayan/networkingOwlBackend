@@ -12,20 +12,15 @@ const constFunctions = require("./src/constants/functions.js");
 const cors = require("cors");
 const cookeiParser = require("cookie-parser");
 const { corsOptions } = require("./src/services/corsOptions.js");
-const fs = require("fs");
 const { serverBaseURL } = require("./src/constants/urls.js");
 
 const app = express();
 
-// var httpsOptions = {
-//     key: fs.readFileSync("/app/certificates/key.pem"),
-//     cert: fs.readFileSync("/app/certificates/cert.pem")
-// };
 
 // Global Middlewares
 
 app.use(express.json()); // Allow reading json from req body
-// app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false}));
 app.use(cookeiParser());
 app.use(cors(corsOptions)); // Allow request from hosts
 
