@@ -12,8 +12,8 @@ const constFunctions = require("./src/constants/functions.js");
 const cors = require("cors");
 const cookeiParser = require("cookie-parser");
 const { corsOptions } = require("./src/services/corsOptions.js");
-const https = require("https");
 const fs = require("fs");
+const { serverBaseURL } = require("./src/constants/urls.js");
 
 const app = express();
 
@@ -25,19 +25,16 @@ var httpsOptions = {
 // Global Middlewares
 
 app.use(express.json()); // Allow reading json from req body
-app.use(express.urlencoded({extended: false}));
+// app.use(express.urlencoded({extended: false}));
 app.use(cookeiParser());
 app.use(cors(corsOptions)); // Allow request from hosts
 
 
 mongoose.connect(process.env.MONGO_DB_URL)
 .then(() => {
-    https.createServer(httpsOptions, app).listen(8080, () => {
-        constFunctions.printWarning("Listening on https://localhost:8080 ...");
+    app.listen(8080, () => {
+        constFunctions.printWarning(`Listening on ${serverBaseURL} ...`);
     });
-    // app.listen(8080, () => {
-    //     constFunctions.printWarning("Listening on http://localhost:8080 ...");
-    // });
 })
 .catch((e) => constFunctions.printError(`connection failed: ${e}`));
 
