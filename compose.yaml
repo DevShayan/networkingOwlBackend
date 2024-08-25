@@ -45,6 +45,9 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_ADMIN_PASS}
       ME_CONFIG_MONGODB_SERVER: mongo-db
       ME_CONFIG_MONGODB_URL: mongodb://mongo-db:27017/
+      ME_CONFIG_BASICAUTH: true
+      ME_CONFIG_BASICAUTH_USERNAME: $ME_WEB_USERNAME
+      ME_CONFIG_BASICAUTH_PASSWORD: $ME_WEB_PASSWORD
     depends_on:
       - mongo-db
     restart: always

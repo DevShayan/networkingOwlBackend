@@ -1,6 +1,4 @@
 const multer = require("multer");
-const { printWarning, printError } = require("../constants/functions");
-
 
 function uploadProfilePic() {
     const storage = multer.diskStorage({

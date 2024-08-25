@@ -19,7 +19,6 @@ const app = express();
 
 app.use(express.json()); // Allow reading json from req body
 app.use(cookeiParser());
-app.use(express.urlencoded({extended: false}));
 app.use(cors(corsOptions)); // Allow request from hosts
 
 
